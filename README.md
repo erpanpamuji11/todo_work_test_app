@@ -14,3 +14,6 @@
 
 ![update_todo](https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/68fc5fb3-2267-4da1-a829-7146e62124b5)
 
+CICD with Codemagic
+
+<img width="895" alt="Screenshot_10" src="https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/957168f5-4bfd-42f3-83bd-102f38681ab1">
