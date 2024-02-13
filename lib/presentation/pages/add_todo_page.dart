@@ -1,0 +1,131 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_work_test_app/presentation/blocs/add_todo/add_todo_bloc.dart';
+import 'package:todo_work_test_app/presentation/pages/home_page.dart';
+
+// ignore: must_be_immutable
+class AddTodoPage extends StatefulWidget {
+  static const String addTodoPage = "add_todo_page";
+  AddTodoPage({super.key});
+
+  @override
+  State<AddTodoPage> createState() => _AddTodoPageState();
+}
+
+class _AddTodoPageState extends State<AddTodoPage> {
+  TextEditingController titleController = TextEditingController();
+
+  TextEditingController categoryController = TextEditingController();
+
+  String iconCategory = "daily";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Add Todo"),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(CupertinoIcons.arrow_left),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Text("Title"),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: titleController,
+                maxLines: 8,
+                decoration: InputDecoration(
+                    hintText: "type your note....",
+                    filled: true,
+                    fillColor: Colors.blue.withOpacity(0.2),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DropdownMenu(
+                    controller: categoryController,
+                    hintText: "Select Category",
+                    inputDecorationTheme: InputDecorationTheme(
+                        filled: true,
+                        fillColor: Colors.blue.withOpacity(0.3),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 1),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        )),
+                    onSelected: (value) {
+                      categoryController.text = value!;
+                      setState(() {
+                        iconCategory = value;
+                      });
+                      debugPrint(categoryController.text);
+                    },
+                    leadingIcon: Hero(
+                      tag: iconCategory,
+                      child: Icon(
+                                        iconCategory == "daily"
+                        ? Icons.check_circle_outline_rounded
+                        : iconCategory == "task"
+                            ? Icons.file_copy
+                            : iconCategory == "birthday"
+                                ? Icons.cake_rounded
+                                : Icons.school_rounded,
+                                        color: Colors.blue.shade600,
+                                        size: 20,
+                                      ),
+                    ),
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry(value: "daily", label: "Daily"),
+                      DropdownMenuEntry(value: "task", label: "Task"),
+                      DropdownMenuEntry(value: "birthday", label: "Birthday"),
+                      DropdownMenuEntry(value: "education", label: "Education"),
+                    ],
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      DateTime timeNow = DateTime.now();
+                      String formattedDate =
+                          DateFormat('d MMM').format(timeNow);
+
+                      context.read<AddTodoBloc>().add(OnPostTodoList(
+                            titleController.text,
+                            categoryController.text,
+                            formattedDate,
+                          ));
+                      Navigator.pushReplacementNamed(context, HomePage.homePage);
+                    },
+                    padding: const EdgeInsets.all(16),
+                    color: Colors.blue.shade600,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
