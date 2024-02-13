@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_work_test_app/core/constants/constants_asset.dart';
 import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_color.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
@@ -23,21 +24,20 @@ class IntroPage extends StatelessWidget {
               ),
               const Gap(24),
               Text(
-                "Welcome to",
+                ConstantText.welcomeTo,
                 style: h3Reguler(),
               ),
-              const Gap(4),
               Text(
-                "My Todo",
+                ConstantText.myTodo,
                 style: h3Bold(),
               ),
-              const Gap(4),
+              const Gap(6),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.15),
                 child: Text(
-                  "My Todo helps you stay organized and perform your task much faster",
-                  style: b2Reguler(),
+                  ConstantText.discriptionTodo,
+                  style: b3Reguler(),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -49,12 +49,12 @@ class IntroPage extends StatelessWidget {
                 },
                 padding:
                     const EdgeInsets.symmetric(horizontal: 45, vertical: 16),
-                color: Colors.blue.shade100,
+                color: Colors.blue.shade50,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
                 child: Text(
-                  "Try Demo",
-                  style: b2Medium(colorText: CustomColor.primary800),
+                  ConstantText.tryDemo,
+                  style: b3Medium(colorText: CustomColor.primary800),
                 ),
               ),
               const Gap(20),
@@ -63,8 +63,8 @@ class IntroPage extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  "No Thanks",
-                  style: b2Medium(colorText: CustomColor.primary800),
+                  ConstantText.nothanks,
+                  style: b3Medium(colorText: CustomColor.primary800),
                 ),
               )
             ],

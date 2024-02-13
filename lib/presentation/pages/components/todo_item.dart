@@ -22,19 +22,16 @@ class TodoItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Hero(
-                  tag: todo.category,
-                  child: Icon(
-                    todo.category == "daily"
-                        ? Icons.check_circle_outline_rounded
-                        : todo.category == "task"
-                            ? Icons.file_copy
-                            : todo.category == "birthday"
-                                ? Icons.cake_rounded
-                                : Icons.school_rounded,
-                    color: Colors.blue.shade600,
-                    size: 27,
-                  ),
+                Icon(
+                  todo.category == "daily"
+                      ? Icons.check_circle_outline_rounded
+                      : todo.category == "task"
+                          ? Icons.file_copy
+                          : todo.category == "birthday"
+                              ? Icons.cake_rounded
+                              : Icons.school_rounded,
+                  color: Colors.blue.shade600,
+                  size: 27,
                 ),
                 const Gap(12),
                 Flexible(

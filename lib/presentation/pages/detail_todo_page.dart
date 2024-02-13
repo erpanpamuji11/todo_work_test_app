@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_color.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/domain/entities/todo.dart';
@@ -14,7 +15,7 @@ import 'package:todo_work_test_app/presentation/pages/home_page.dart';
 class DetailTodoPage extends StatefulWidget {
   static const String detailTodoPage = "detail_todo_page";
   const DetailTodoPage({super.key, required this.todo});
-
+  
   final Todo todo;
 
   @override
@@ -25,6 +26,24 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
   String iconCategory = "daily";
+
+  updateTodo() {
+    if (titleController.text == "" || categoryController.text == "") {
+      const ScaffoldMessenger(
+          child: SnackBar(content: Text(ConstantText.formCantEmpty)));
+      return;
+    }
+    DateTime timeNow = DateTime.now();
+    String formattedDate = DateFormat('d MMM').format(timeNow);
+
+    context.read<UpdateTodoBloc>().add(OnPutTodoList(
+          titleController.text,
+          categoryController.text,
+          formattedDate,
+          widget.todo.id,
+        ));
+    Navigator.pushReplacementNamed(context, HomePage.homePage);
+  }
 
   @override
   void initState() {
@@ -44,7 +63,10 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detail Todo", style: h4Bold(),),
+        title: Text(
+          DetailTodoPage.detailTodoPage,
+          style: h4Bold(),
+        ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(CupertinoIcons.arrow_left),
@@ -61,7 +83,7 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                 controller: titleController,
                 maxLines: 8,
                 decoration: InputDecoration(
-                    hintText: "type your note....",
+                    hintText: ConstantText.typeYourNote,
                     filled: true,
                     fillColor: Colors.blue.withOpacity(0.2),
                     border: OutlineInputBorder(
@@ -74,7 +96,7 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                 children: [
                   DropdownMenu(
                     controller: categoryController,
-                    hintText: "Select Category",
+                    hintText: ConstantText.selectCategoryText,
                     inputDecorationTheme: InputDecorationTheme(
                         filled: true,
                         fillColor: Colors.blue.withOpacity(0.3),
@@ -91,19 +113,16 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                       });
                       debugPrint(categoryController.text);
                     },
-                    leadingIcon: Hero(
-                      tag: iconCategory,
-                      child: Icon(
-                        iconCategory == "daily"
-                            ? Icons.check_circle_outline_rounded
-                            : iconCategory == "task"
-                                ? Icons.file_copy
-                                : iconCategory == "birthday"
-                                    ? Icons.cake_rounded
-                                    : Icons.school_rounded,
-                        color: Colors.blue.shade600,
-                        size: 20,
-                      ),
+                    leadingIcon: Icon(
+                      iconCategory == "daily"
+                          ? Icons.check_circle_outline_rounded
+                          : iconCategory == "task"
+                              ? Icons.file_copy
+                              : iconCategory == "birthday"
+                                  ? Icons.cake_rounded
+                                  : Icons.school_rounded,
+                      color: Colors.blue.shade600,
+                      size: 20,
                     ),
                     dropdownMenuEntries: const [
                       DropdownMenuEntry(value: "daily", label: "Daily"),
@@ -124,13 +143,15 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                         barrierDismissible: false,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text("Delete Todo", style: h4Medium(),),
-                            
+                            title: Text(
+                              ConstantText.deleteTodoText,
+                              style: h4Medium(),
+                            ),
                             actions: [
                               TextButton(
                                   onPressed: () => Navigator.pop(context),
                                   child: Text(
-                                    "Cancel",
+                                    ConstantText.cancelText,
                                     style: b2Medium(),
                                   )),
                               TextButton(
@@ -142,8 +163,9 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                                         context, HomePage.homePage);
                                   },
                                   child: Text(
-                                    "Delete",
-                                    style: b2Medium(colorText: CustomColor.danger700),
+                                    ConstantText.deleteText,
+                                    style: b2Medium(
+                                        colorText: CustomColor.danger700),
                                   ))
                             ],
                           );
@@ -162,26 +184,13 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                   const Gap(16),
                   Expanded(
                     child: MaterialButton(
-                      onPressed: () {
-                        DateTime timeNow = DateTime.now();
-                        String formattedDate =
-                            DateFormat('d MMM').format(timeNow);
-
-                        context.read<UpdateTodoBloc>().add(OnPutTodoList(
-                              titleController.text,
-                              categoryController.text,
-                              formattedDate,
-                              widget.todo.id,
-                            ));
-                        Navigator.pushReplacementNamed(
-                            context, HomePage.homePage);
-                      },
+                      onPressed: () => updateTodo(),
                       padding: const EdgeInsets.all(16),
                       color: Colors.blue.shade600,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
                       child: Text(
-                        "Update",
+                        ConstantText.updateText,
                         style: b2Medium(colorText: CustomColor.primary100),
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_color.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/presentation/blocs/add_todo/add_todo_bloc.dart';
@@ -23,6 +24,23 @@ class _AddTodoPageState extends State<AddTodoPage> {
   TextEditingController categoryController = TextEditingController();
 
   String iconCategory = "daily";
+
+  void submitTodo() {
+    if (titleController.text == "" || categoryController.text == "") {
+      const ScaffoldMessenger(
+          child: SnackBar(content: Text("Title and Category can't be empty")));
+      return;
+    }
+    DateTime timeNow = DateTime.now();
+    String formattedDate = DateFormat('d MMM').format(timeNow);
+
+    context.read<AddTodoBloc>().add(OnPostTodoList(
+          titleController.text,
+          categoryController.text,
+          formattedDate,
+        ));
+    Navigator.pushReplacementNamed(context, HomePage.homePage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +69,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 maxLines: 8,
                 style: b2Bold(),
                 decoration: InputDecoration(
-                    hintText: "type your note....",
+                    hintText: ConstantText.typeYourNote,
                     hintStyle: b2Bold(),
                     filled: true,
                     fillColor: Colors.blue.withOpacity(0.2),
@@ -63,7 +81,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
               DropdownMenu(
                 width: MediaQuery.of(context).size.width * 0.7,
                 controller: categoryController,
-                hintText: "Select Category",
+                hintText: ConstantText.selectCategoryText,
                 textStyle: b2Bold(),
                 inputDecorationTheme: InputDecorationTheme(
                     filled: true,
@@ -96,7 +114,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   ),
                 ),
                 dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: "daily", label: "Daily",),
+                  DropdownMenuEntry(
+                    value: "daily",
+                    label: "Daily",
+                  ),
                   DropdownMenuEntry(value: "task", label: "Task"),
                   DropdownMenuEntry(value: "birthday", label: "Birthday"),
                   DropdownMenuEntry(value: "education", label: "Education"),
@@ -107,24 +128,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 children: [
                   Expanded(
                     child: MaterialButton(
-                      onPressed: () {
-                        DateTime timeNow = DateTime.now();
-                        String formattedDate =
-                            DateFormat('d MMM').format(timeNow);
-
-                        context.read<AddTodoBloc>().add(OnPostTodoList(
-                              titleController.text,
-                              categoryController.text,
-                              formattedDate,
-                            ));
-                        Navigator.pushReplacementNamed(
-                            context, HomePage.homePage);
-                      },
+                      onPressed: () => submitTodo(),
                       padding: const EdgeInsets.all(16),
                       color: Colors.blue.shade600,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
-                      child: Text("Submit",
+                      child: Text(ConstantText.submitText,
                           style: b2Medium(colorText: CustomColor.primary100)),
                     ),
                   ),

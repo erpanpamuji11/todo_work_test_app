@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/presentation/blocs/todo/todo_bloc.dart';
 import 'package:todo_work_test_app/presentation/pages/add_todo_page.dart';
@@ -34,11 +35,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title:  Text("My Todo", style: h2Bold(),),
+        title: Text(
+          ConstantText.myTodo,
+          style: h3Bold(),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {},
-          icon: const Icon(CupertinoIcons.app_badge),
+          icon: const Icon(CupertinoIcons.line_horizontal_3),
         ),
         actions: [
           IconButton(
@@ -49,7 +53,10 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: BlocBuilder<TodoBloc, TodoState>(
+      body: BlocConsumer<TodoBloc, TodoState>(
+        listener: (context, state) {
+          setState(() {});
+        },
         builder: (context, state) {
           if (state is TodoLoading) {
             return const Center(
@@ -62,8 +69,12 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (state is TodoLoaded) {
-            if (state.todos.isEmpty){
-              return Center(child: Text("Add your todo click +", style: b1Bold(),));
+            if (state.todos.isEmpty) {
+              return Center(
+                  child: Text(
+                ConstantText.textAddTodo,
+                style: b1Bold(),
+              ));
             }
             return SingleChildScrollView(
               child: Column(
@@ -72,9 +83,16 @@ class _HomePageState extends State<HomePage> {
                   const Gap(20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "Remaining task (${state.todos.length})",
-                      style: h4Medium(),
+                    child: RichText(
+                      text: TextSpan(
+                          text: "Remaining task ",
+                          style: b1Medium(),
+                          children: [
+                            TextSpan(
+                              text: '(${state.todos.length})',
+                              style: b1Bold(),
+                            ),
+                          ]),
                     ),
                   ),
                   const SizedBox(
