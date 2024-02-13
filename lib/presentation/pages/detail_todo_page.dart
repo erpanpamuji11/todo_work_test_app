@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_work_test_app/core/style/style_color.dart';
+import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/domain/entities/todo.dart';
 import 'package:todo_work_test_app/presentation/blocs/delete_bloc/delete_todo_bloc.dart';
 import 'package:todo_work_test_app/presentation/blocs/update_bloc/update_todo_bloc.dart';
@@ -11,7 +13,7 @@ import 'package:todo_work_test_app/presentation/pages/home_page.dart';
 // ignore: must_be_immutable
 class DetailTodoPage extends StatefulWidget {
   static const String detailTodoPage = "detail_todo_page";
-  DetailTodoPage({super.key, required this.todo});
+  const DetailTodoPage({super.key, required this.todo});
 
   final Todo todo;
 
@@ -26,7 +28,6 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     iconCategory = widget.todo.category;
     titleController.text = widget.todo.title;
@@ -43,7 +44,7 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detail Todo"),
+        title: Text("Detail Todo", style: h4Bold(),),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(CupertinoIcons.arrow_left),
@@ -55,10 +56,7 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text("Title"),
-              const SizedBox(
-                height: 20,
-              ),
+              const Gap(20),
               TextFormField(
                 controller: titleController,
                 maxLines: 8,
@@ -70,9 +68,7 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none)),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const Gap(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -121,45 +117,46 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
               const Gap(20),
               Row(
                 children: [
-                  Expanded(
-                    child: MaterialButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("Delete Todo"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text(
-                                      "Cancel",
-                                    )),
-                                TextButton(
-                                    onPressed: () {
-                                      context.read<DeleteBlocBloc>().add(
-                                          OnDeleteTodo(
-                                              int.parse(widget.todo.id)));
-                                      Navigator.pushReplacementNamed(
-                                          context, HomePage.homePage);
-                                    },
-                                    child: const Text(
-                                      "Delete",
-                                      style: TextStyle(color: Colors.red),
-                                    ))
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: const Icon(
-                        Icons.delete_rounded,
-                        color: Colors.white,
-                      ),
+                  MaterialButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Delete Todo", style: h4Medium(),),
+                            
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text(
+                                    "Cancel",
+                                    style: b2Medium(),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                    context.read<DeleteBlocBloc>().add(
+                                        OnDeleteTodo(
+                                            int.parse(widget.todo.id)));
+                                    Navigator.pushReplacementNamed(
+                                        context, HomePage.homePage);
+                                  },
+                                  child: Text(
+                                    "Delete",
+                                    style: b2Medium(colorText: CustomColor.danger700),
+                                  ))
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    child: const Icon(
+                      Icons.delete_rounded,
+                      color: Colors.white,
                     ),
                   ),
                   const Gap(16),
@@ -183,9 +180,9 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                       color: Colors.blue.shade600,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
-                      child: const Text(
+                      child: Text(
                         "Update",
-                        style: TextStyle(color: Colors.white),
+                        style: b2Medium(colorText: CustomColor.primary100),
                       ),
                     ),
                   ),

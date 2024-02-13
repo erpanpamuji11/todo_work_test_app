@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/domain/entities/todo.dart';
 
 class TodoItem extends StatelessWidget {
@@ -10,7 +11,7 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Ink(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16), color: Colors.white),
       child: Row(
@@ -35,20 +36,22 @@ class TodoItem extends StatelessWidget {
                     size: 27,
                   ),
                 ),
-                Gap(12),
+                const Gap(12),
                 Flexible(
                   child: Text(
                     todo.title,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
+                    style: b2Medium(),
                   ),
                 ),
               ],
             ),
           ),
-          Gap(12),
+          const Gap(12),
           Text(
             todo.createdAt,
+            style: b2Medium(),
           )
         ],
       ),

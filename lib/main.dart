@@ -9,6 +9,7 @@ import 'package:todo_work_test_app/presentation/pages/add_todo_page.dart';
 import 'package:todo_work_test_app/presentation/pages/detail_todo_page.dart';
 import 'package:todo_work_test_app/presentation/pages/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_work_test_app/presentation/pages/intro_page.dart';
 
 void main() {
   setupSl();
@@ -34,12 +35,12 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade700),
             useMaterial3: true,
           ),
-          initialRoute: HomePage.homePage,
+          initialRoute: IntroPage.introPage,
           onGenerateRoute: (settings) {
             switch (settings.name) {
               case HomePage.homePage:
                 return MaterialPageRoute(
-                  builder: (context) => HomePage(),
+                  builder: (context) => const HomePage(),
                 );
               case AddTodoPage.addTodoPage:
                 return MaterialPageRoute(
@@ -49,6 +50,10 @@ class MyApp extends StatelessWidget {
                 final data = settings.arguments as Todo;
                 return MaterialPageRoute(
                   builder: (context) => DetailTodoPage(todo: data),
+                );
+              case IntroPage.introPage:
+                return MaterialPageRoute(
+                  builder: (context) => const IntroPage(),
                 );
             }
             return null;

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:todo_work_test_app/core/error/error/exception.dart';
+import 'package:todo_work_test_app/core/error/exception.dart';
 import 'package:todo_work_test_app/core/utils/baseUrl_utils.dart';
 import 'package:todo_work_test_app/data/models/todo_model.dart';
 import 'package:http/http.dart' as http;

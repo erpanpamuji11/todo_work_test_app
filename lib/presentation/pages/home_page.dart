@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/presentation/blocs/todo/todo_bloc.dart';
 import 'package:todo_work_test_app/presentation/pages/add_todo_page.dart';
 import 'package:todo_work_test_app/presentation/pages/components/todo_item.dart';
@@ -18,8 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    BlocProvider.of<TodoBloc>(context).add(OnGetTodoList());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     BlocProvider.of<TodoBloc>(context).add(OnGetTodoList());
   }
 
@@ -28,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: const Text("My Todo"),
+        title:  Text("My Todo", style: h2Bold(),),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {},
@@ -56,6 +62,9 @@ class _HomePageState extends State<HomePage> {
             );
           }
           if (state is TodoLoaded) {
+            if (state.todos.isEmpty){
+              return Center(child: Text("Add your todo click +", style: b1Bold(),));
+            }
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                       "Remaining task (${state.todos.length})",
-                      style: const TextStyle(fontSize: 18),
+                      style: h4Medium(),
                     ),
                   ),
                   const SizedBox(

@@ -1,6 +1,6 @@
 part of 'todo_bloc.dart';
 
-sealed class TodoState extends Equatable {
+abstract class TodoState extends Equatable {
   const TodoState();
   
   @override
