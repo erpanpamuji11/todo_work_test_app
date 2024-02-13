@@ -1,16 +1,16 @@
 # todo_work_test_app
 
-A new Flutter project.
+* BloC State Management
+* Clean Architecture
+* Testing
+* CICD with Codemagic
 
-## Getting Started
+## Output
+![onboarding](https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/de838c1c-8ff6-4658-b867-2e3f19624bee)
 
-This project is a starting point for a Flutter application.
+![home_page](https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/d5b788ef-78a1-4e65-a7c7-e0ffe6b16914)
 
-A few resources to get you started if this is your first Flutter project:
+![add_todo](https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/08cceb8f-b150-4d0b-b28f-6f478aa8c741)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![update_todo](https://github.com/erpanpamuji11/todo_work_test_app/assets/99371814/68fc5fb3-2267-4da1-a829-7146e62124b5)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
