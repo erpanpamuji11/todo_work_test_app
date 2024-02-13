@@ -33,6 +33,5 @@ class TodoModel extends Equatable {
       Todo(title: title, category: category, createdAt: createdAt, id: id);
 
   @override
-  // TodoModel: implement props
   List<Object?> get props => [id, title, category, createdAt];
 }

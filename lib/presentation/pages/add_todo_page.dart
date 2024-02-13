@@ -7,6 +7,7 @@ import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_color.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/presentation/blocs/add_todo/add_todo_bloc.dart';
+import 'package:todo_work_test_app/presentation/pages/components/show_dialog_loading.dart';
 import 'package:todo_work_test_app/presentation/pages/home_page.dart';
 
 // ignore: must_be_immutable
@@ -27,8 +28,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   void submitTodo() {
     if (titleController.text == "" || categoryController.text == "") {
-      const ScaffoldMessenger(
-          child: SnackBar(content: Text("Title and Category can't be empty")));
+      const snackBar = SnackBar(
+        content: Text(ConstantText.formCantEmpty),
+        duration: Duration(seconds: 3),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
     DateTime timeNow = DateTime.now();
@@ -39,7 +43,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
           categoryController.text,
           formattedDate,
         ));
-    Navigator.pushReplacementNamed(context, HomePage.homePage);
   }
 
   @override
@@ -124,20 +127,45 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 ],
               ),
               const Gap(20),
-              Row(
-                children: [
-                  Expanded(
-                    child: MaterialButton(
-                      onPressed: () => submitTodo(),
-                      padding: const EdgeInsets.all(16),
-                      color: Colors.blue.shade600,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Text(ConstantText.submitText,
-                          style: b2Medium(colorText: CustomColor.primary100)),
+              BlocListener<AddTodoBloc, AddTodoState>(
+                listener: (context, state) {
+                  if (state is AddTodoLoaded) {}
+                  if (state is AddTodoLoading) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return showDialogLoading();
+                      },
+                    );
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(
+                          context, HomePage.homePage);
+                    });
+                  }
+                  if (state is AddTodoFailed) {
+                    const snackBar = SnackBar(
+                      content: Text("Add failed"),
+                      duration: Duration(seconds: 3),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: MaterialButton(
+                        onPressed: () => submitTodo(),
+                        padding: const EdgeInsets.all(16),
+                        color: Colors.blue.shade600,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Text(ConstantText.submitText,
+                            style: b2Medium(colorText: CustomColor.primary100)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

@@ -36,21 +36,6 @@ void main() {
     ),
   ];
 
-  final tTodoList = [
-  Todo(
-    title: "todo 1",
-    category: "daily",
-    createdAt: "11 Mey",
-    id: "1",
-  ),
-    Todo(
-      title: "todo 1",
-      category: "daily",
-      createdAt: "11 Mey",
-      id: "1",
-    ),
-  ];
-
   test('should get now playing movies from the remote data source', () async {
     when(mockTodoDataSource.getTodoList())
         .thenAnswer((_) async => tTodoModelList);

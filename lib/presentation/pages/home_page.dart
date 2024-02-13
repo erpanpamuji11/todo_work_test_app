@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_work_test_app/core/constants/constants_text.dart';
+import 'package:todo_work_test_app/core/style/style_color.dart';
 import 'package:todo_work_test_app/core/style/style_text.dart';
 import 'package:todo_work_test_app/presentation/blocs/todo/todo_bloc.dart';
 import 'package:todo_work_test_app/presentation/pages/add_todo_page.dart';
@@ -65,7 +66,20 @@ class _HomePageState extends State<HomePage> {
           }
           if (state is TodoFailed) {
             return Center(
-              child: Text(state.message),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.message),
+                  TextButton(
+                      onPressed: () {
+                        BlocProvider.of<TodoBloc>(context).add(OnGetTodoList());
+                      },
+                      child: Text(
+                        "try again",
+                        style: b2Medium(colorText: CustomColor.primary800),
+                      ))
+                ],
+              ),
             );
           }
           if (state is TodoLoaded) {

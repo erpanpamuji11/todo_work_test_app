@@ -18,7 +18,7 @@ class TodoDataSourceImpl extends TodoDataSource {
 
   @override
   Future<List<TodoModel>> getTodoList() async {
-    final response = await client.get(Uri.parse(BaseUrl.url));
+    final response = await client.get(Uri.parse("${BaseUrl.url}/todos") );
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       return data.map((e) => TodoModel.fromJson(e)).toList();
@@ -29,7 +29,7 @@ class TodoDataSourceImpl extends TodoDataSource {
 
   @override
   Future<TodoModel> addTodo(String title, category, createdAt) async {
-    final response = await client.post(Uri.parse(BaseUrl.url), body: {
+    final response = await client.post(Uri.parse("${BaseUrl.url}/todos"), body: {
       "title": title,
       "category": category,
       "createdAt": createdAt
@@ -43,7 +43,7 @@ class TodoDataSourceImpl extends TodoDataSource {
   
   @override
   Future<TodoModel> deleteTodo(int id) async {
-    final response = await client.delete(Uri.parse("${BaseUrl.url}/$id"));
+    final response = await client.delete(Uri.parse("${BaseUrl.url}/todos/$id"));
     if (response.statusCode == 200) {
       return TodoModel.fromJson(json.decode(response.body));
     } else {
@@ -53,7 +53,7 @@ class TodoDataSourceImpl extends TodoDataSource {
   
   @override
   Future<TodoModel> updateTodo(String title, category, createdAt, id) async {
-    final response = await client.put(Uri.parse("${BaseUrl.url}/$id"), body: {
+    final response = await client.put(Uri.parse("${BaseUrl.url}/todos/$id"), body: {
       "title": title,
       "category": category,
       "createdAt": createdAt
