@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:todo_work_test_app/core/error/exception.dart';
 import 'package:todo_work_test_app/core/utils/baseUrl_utils.dart';
 import 'package:todo_work_test_app/data/models/todo_model.dart';
@@ -18,11 +21,23 @@ class TodoDataSourceImpl extends TodoDataSource {
 
   @override
   Future<List<TodoModel>> getTodoList() async {
-    final response = await client.get(Uri.parse("${BaseUrl.url}/todos") );
+    try {
+      final response = await client.get(Uri.parse("${BaseUrl.url}/todos")).timeout(const Duration(seconds: 10));
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       return data.map((e) => TodoModel.fromJson(e)).toList();
     } else {
+      throw ServerException();
+    }
+    } catch (e){
+      debugPrint("failed : $e");
+
+      if (e is SocketException) {
+        throw OfflineException();
+      }
+      if (e is TimeoutException) {
+        throw TimeOutExceptionss();
+      }
       throw ServerException();
     }
   }

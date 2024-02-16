@@ -18,8 +18,10 @@ class TodoRepositoryImpl extends TodoRepository {
       return Right(result.map((e) => e.toEntity()).toList());
     } on ServerException {
       return const Left(ServerFailure("An error has occured"));
-    } on SocketException {
+    } on OfflineException {
       return const Left(ConnectionFailure("failed to connect to the network"));
+    } on TimeOutExceptionss {
+      return const Left(TimeOutFailure("network is too bad"));
     }
   }
   

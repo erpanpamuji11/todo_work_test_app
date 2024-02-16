@@ -209,6 +209,9 @@ class _DetailTodoPageState extends State<DetailTodoPage> {
                     Expanded(
                       child: BlocListener<DeleteBlocBloc, DeleteBlocState>(
                         listener: (context, state) {
+                          if (state is DeleteBlocLoading){
+                            showDialogLoading();
+                          }
                           if (state is DeleteBlocLoaded){
                             Navigator.pushReplacementNamed(context, HomePage.homePage);
                           }

@@ -64,9 +64,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const Gap(20),
               TextFormField(
                 controller: titleController,
                 maxLines: 8,

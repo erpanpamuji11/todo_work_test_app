@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Widget showDialogLoading() {
   return const SimpleDialog(
@@ -8,7 +8,10 @@ Widget showDialogLoading() {
     children: [
       Column(
         children: [
-          CircularProgressIndicator(),
+          SpinKitThreeBounce(
+            size: 20,
+            color: Colors.blue,
+          ),
         ],
       )
     ],

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:todo_work_test_app/core/constants/constants_text.dart';
 import 'package:todo_work_test_app/core/style/style_color.dart';
@@ -61,7 +62,10 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is TodoLoading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitThreeBounce(
+                size: 20,
+                color: Colors.blue,
+              ),
             );
           }
           if (state is TodoFailed) {
